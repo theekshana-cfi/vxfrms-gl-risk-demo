@@ -64,3 +64,30 @@ Statistical priority = min(99, round(absolute Z-score × 15)); High if absolute 
 Default results: 7 rule-based journals, 4 statistical journals, 2 ML journals, 8 unique journals across all methods. Counts depend on settings. Method overlap is not independent corroboration. Investigators must review the business context.
 
 Run additional tests with `node tests/analytics.test.cjs`. Algorithm reference: https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.IsolationForest.html
+
+## Rule management and governance demonstration (v1.2)
+
+Detection rules now supports Add, Edit, Duplicate, Enable/Disable, Delete and per-rule History. A guided builder supports the seven existing rule types; it does not execute free-form code. Business rationale is required. Preview impact compares before/after rule-based flags on the same synthetic ledger. All changes are proposals; there is no immediate-save bypass.
+
+Use the demo identity selector in the header:
+- **Author:** create drafts, submit/discard own drafts, update investigations.
+- **Approver:** approve/reject another identity's submitted request; update investigations; cannot author rules.
+- **Auditor:** read dashboards, requests, snapshots and audit history; cannot author, approve or save investigations.
+- **Administrator:** author and review, but cannot review their own requests.
+
+All identities can explore statistical/ML settings in the analytical sandbox. The approval workflow covers the rule set, not model settings or investigation approvals.
+
+### Suggested walkthrough
+
+1. As Demo Rule Author, open Detection rules → Add rule. Name it “Enhanced high-value review”, choose High-value journal, set threshold 750,000, supply a description and business rationale, and Preview impact (7 → 50 flagged journals with default rules).
+2. Save draft. Detection still uses approved v1. Submit for approval; approval actions are disabled for the author.
+3. Close the dialog, switch to Demo Approver, open Roles & governance, and inspect the change request. Enter a review rationale and Approve & activate. Approved v2 becomes active and its snapshot is retained.
+4. Switch to Auditor. View permission restrictions, per-rule history, version snapshots and the audit export.
+5. As Author, propose disabling or deleting a rule. Deletion requires an explicit deletion-draft confirmation, rationale and independent approval. Older snapshots retain the definition.
+6. Inspect an earlier version and Propose restore. This creates a fresh draft based on the current version; approval creates a new version rather than overwriting history.
+
+Requests store complete proposed rule-set snapshots. Draft → Pending → Approved/Rejected; authors can discard drafts. Requests based on an older approved version cannot be submitted or approved, preventing lost updates within the demo state; reject stale pending requests and create fresh proposals. Review rationale is mandatory. Approval activates the snapshot and increments the version. Per-rule History derives approved changes from the retained snapshots. Audit events include drafting, submission, approval/rejection, discarding, simulated identity switching and investigation changes.
+
+Governance is saved under `vx-governance-v1` in browser local storage. On first use it imports the current browser's existing rule settings as approved v1. It is per-browser/per-origin, does not sync between users or tabs, and survives reload. Simulated users are selectable without login; browser storage and client code can be edited outside the UI. This is **not server-enforced access control, secure separation of duties or an immutable audit system**. A production implementation needs authenticated identities, server-side authorization and validation, transactional concurrency control, durable version storage and tamper-evident audit records.
+
+Run `node tests/governance.test.cjs` for lifecycle and permission tests.
