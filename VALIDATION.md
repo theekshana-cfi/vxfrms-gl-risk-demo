@@ -1,3 +1,15 @@
+# Current validation — v1.3 Priority 1 release
+
+- 361 unique deterministic journals; all journal debits equal credits and header amount equals each side’s total. 741 journal lines, 36 transaction types, 13 categories, 33 used GL accounts and 12 branches.
+- Default detection checks: 8 rule-based, 5 statistical and 13 ML flagged journals. 3,360 historical baseline records provide 120 peers for every primary detection account.
+- All four suites passed: expanded ledger/rules, statistical/ML, governance, unified investigations.
+- Case tests cover one case per source, source separation, assignment and overdue dates, allowed/invalid status transitions, mandatory resolution rationale, reopening, notes, reviewer feedback history, false-positive closure, and Auditor write restrictions.
+- Browser verified balanced 2-line suspense and 3-line principal/interest repayment drilldowns, all source/approval metadata, journal case creation, assignment, overdue indication, notes, Pending Clarification, resolution, closure, reopening, false-positive feedback and linked-case closure.
+- Browser verified a reconciliation exception creates a separate case in the same register; cases and notes persisted after reload. Legacy notes appeared in a labelled archive rather than attaching to new journals with reused IDs.
+- Desktop layout visually inspected. CSV generation is implemented; downloads have not been independently parsed. No new mobile-device pass or production access/security testing is claimed.
+
+Earlier validation history follows; counts and descriptions below refer to previous versions.
+
 # Validation
 
 - JavaScript syntax checked for engine.js and app.js.

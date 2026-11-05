@@ -43,7 +43,7 @@ Official documentation checked for this handoff:
 
 ## 3. Verify the deployed demo
 
-Check the demo banner, 241 journals / 7 initial flagged journals, journal drilldown, saving an investigation, threshold changes, CSV exports and reconciliation details. Restore default rules after demonstrating changes. Local browser state is per origin; the cloud URL starts with fresh state.
+Check the demo banner, 361 journals / 8 initial rule-based flagged journals, balanced journal drilldown, creating and assigning an investigation, threshold changes, CSV exports and reconciliation details. Restore default rules after demonstrating changes. Local browser state is per origin; the cloud URL starts with fresh state.
 
 ## Optional direct upload
 

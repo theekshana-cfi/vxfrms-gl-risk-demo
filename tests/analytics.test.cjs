@@ -1,12 +1,13 @@
 const assert=require('node:assert/strict');
 const GL=require('../dist/engine.js');require('../dist/analytics.js');const A=globalThis.Analytics;
 const rows=GL.generate();
-assert.equal(A.historical.length,600);
+assert.equal(A.historical.length,new Set(rows.map(t=>t.account)).size*120);
 assert.ok(A.historical.every(t=>t.date.startsWith('2026-08-')));
-assert.equal(A.statistical(rows).filter(t=>t.flagged).length,4);
+assert.equal(A.statistical(rows).filter(t=>t.flagged).length,5);
+assert.ok(rows.every(t=>A.historical.filter(h=>h.account===t.account).length===120));
 const stat=A.statistical(rows,{z:3});const statSensitive=A.statistical(rows,{z:2});
 assert.ok(stat.filter(t=>t.flagged).every(t=>statSensitive.find(x=>x.id===t.id).flagged));
-const ml=A.machine(rows);assert.equal(ml.filter(t=>t.flagged).length,2);
+const ml=A.machine(rows);assert.equal(ml.filter(t=>t.flagged).length,13);
 assert.deepEqual(A.machine(rows),ml,'seeded fitting is repeatable');
 assert.ok(ml.every(t=>Number.isFinite(t.rawScore)&&t.rawScore>=0&&t.rawScore<=1));
 assert.ok(ml.filter(t=>t.flagged).every(t=>A.machine(rows,{threshold:.55}).find(x=>x.id===t.id).flagged));
