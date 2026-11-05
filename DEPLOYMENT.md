@@ -2,7 +2,7 @@
 
 ## Access status
 
-GitHub repository: https://github.com/theekshana-cfi/vxfrms-gl-risk-demo. The user created this repository and authorised uploading the prototype. Cloudflare deployment remains pending; no live cloud deployment has been performed. Do not paste passwords or API tokens into chat or commit credentials.
+GitHub repository: https://github.com/theekshana-cfi/vxfrms-gl-risk-demo. The user created this repository and authorised uploading the prototype. Cloudflare Pages is deployed at https://vxfrms-gl-risk-demo.pages.dev/ and automatically deploys updates pushed to main. Do not paste passwords or API tokens into chat or commit credentials.
 
 ## 1. Put the prepared source on GitHub
 

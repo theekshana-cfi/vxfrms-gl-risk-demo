@@ -48,3 +48,19 @@ Tests cover deterministic generation, every seeded rule, disabled controls, amou
 ## Source control and deployment
 
 See DEPLOYMENT.md for GitHub and Cloudflare Pages settings. The `dist` directory is ready for static hosting without dependencies, credentials or environment variables. `_headers` supplies security headers on Cloudflare Pages. No third-party assets are loaded.
+
+## Statistical and machine learning detection (v1.1)
+
+Open Detection studio to compare all three methods, configure settings and inspect cross-method evidence. Use the Detection approach selector on the dashboard or workbench to switch the active results. Case histories remain journal-specific and shared across methods; exports include the selected approach.
+
+Statistical detection uses a separate, seeded August baseline of 600 synthetic records (120 per GL account). Absolute Z-score compares amount with the account population mean and population standard deviation; the default strict cutoff is 3. The alternative IQR method uses interpolated quartiles with a default 1.5 fence multiplier. Neither includes time-series forecasting or seasonal adjustment.
+
+Machine learning detection is a compact JavaScript Isolation Forest, fitted in-browser on the separate August baseline. Defaults: 64 trees, 128 randomly sampled records per tree without replacement, depth limit 7, seed 1977. Each node randomly selects a varying feature and a split between its observed bounds. Terminal path lengths include the standard expected-path-length correction. Score = 2^(-average path length / c(128)); strict default cutoff is 0.62. This is an actual unsupervised fitting/scoring process, not predetermined labels and not the scikit-learn package.
+
+Features: log1p(amount), local posting hour, log1p(inactivity days), reversal count, absolute counterpart variance divided by amount, and manual posting indicator. Amount has no currency mixing because this dataset is all LKR. Account and branch are not ML inputs. The ML baseline includes small counterpart differences, inactivity up to 24 days, and occasional single reversals; it is generated separately from September. These distributions are illustrative and may produce apparent signals from benign distribution differences. The model can miss accounting irregularities detected by rules. No known anomaly labels, accuracy, precision, recall, drift monitoring, model registry or production fraud calibration is claimed.
+
+Statistical priority = min(99, round(absolute Z-score × 15)); High if absolute Z-score > 5, otherwise Medium (including when IQR selected). ML priority = round(raw isolation score × 99); High if raw score exceeds configured cutoff by more than 0.08, otherwise Medium. These are presentation heuristics, are not calibrated across methods, and are not probabilities. ML feature context shows the three largest standardized baseline deviations; it is not causal attribution or SHAP.
+
+Default results: 7 rule-based journals, 4 statistical journals, 2 ML journals, 8 unique journals across all methods. Counts depend on settings. Method overlap is not independent corroboration. Investigators must review the business context.
+
+Run additional tests with `node tests/analytics.test.cjs`. Algorithm reference: https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.IsolationForest.html

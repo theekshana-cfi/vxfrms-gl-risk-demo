@@ -9,3 +9,9 @@
 - Dashboard screenshot visually inspected at available browser width. CSS includes small-screen layouts; a separate mobile-device pass was not performed.
 - CSV export code and filters implemented; download-file contents were not independently browser-tested.
 - GitHub and Cloudflare browser sessions both require sign-in. No live cloud deployment was performed or verified.
+
+## v1.1 statistical and ML update
+
+- Analytics tests passed for baseline dates/count, quantile calculation, seeded repeatability, finite score range, exact strict score boundary, sensitivity monotonicity, IQR detection, alternative tree counts and scoring independence from the other September evaluation records.
+- Local browser verified the Detection Studio default comparison (7 rules / 4 statistical / 2 ML / 8 unique), ML exception drilldown and raw score evidence, method switching, and sensitivity changes (ML cutoff 0.55 yields 96 flagged journals).
+- Studio layout visually inspected. No calibrated performance evaluation is claimed on synthetic data.
